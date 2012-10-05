@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<htmL lan="en">
+	<head>
+		<title>Post Items</title>
+
+		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+		<script src="../bootstrap/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			
+			<form id="formPost">
+		
+					<div id="formPostHeader">
+						<div class="row-fluid">
+							<legend><h2>Post Your Items</h2></legend>
+							<label class="text-info" for="inputPostTitle"><h4>Posting Title</h4>			
+							<input id="inputPostTitle" class="input-xlarge" type="text" placeholder="Enter the title of your post"></label>
+						</div>
+						<div class="row-fluid">
+							<label class="text-info" for="inputEmail"><h4>Your Email<h4></label>
+						
+							<div class="row-fluid">
+							<div class="span3">
+									<input id="inputEmail" type="text" placeholder="Enter your email address">
+							</div>
+							<div class="span3">
+								<input id="inputEmailAgain" type="text" placeholder="Enter email address again">
+							</div>
+							
+							<div class="span6">
+								<label class="radio inline">
+									<input type="radio" name="radioEmailOptions" id="radioEmailOption1" value="anonymize" checked>	Anonymize
+								</label>
+								<label class="radio inline">
+									<input type="radio" name="radioEmailOptions" id="radioEmailOption2" value="hide">
+									Hide
+								</label>
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span3">
+								<label class="checkbox text-info">
+									<input type="checkbox"><h4>Can Deliver</h4>
+								</label>
+							</div>
+							<div class="span9">
+								<label class="text-info" for="inputDeliveryFee"><h4>Delivery Fee</h4>
+								<span class="input-prepend">
+								<span class="add-on">$</span><input id="inputDeliveryFee" class="input-small" type="text"></label>
+							</div>
+						</div>
+					</div>	<!--end div fromPostHead -->		
+			
+							
+				
+
+				<div class="row-fluid">
+					<div id="formPostItems" class="span8">
+						<legend><h2>Item Description</h2></legend>			
+						
+						<div class="row-fluid">
+							<div class="span3">
+								<label class="text-info" for="inputFurnitureType"><h4>Furniture Type</h4></label>
+								<input id="inputFurnitureType" class="input-medium" type="text" placeholder="Enter furniture type">	
+							</div>
+							<div class="span3">
+								<label class="text-info" for="inputPrice"><h4>Price</h4></label>
+								<span class="input-prepend">
+								<span class="add-on">$</span><input id="inputPrice" class="input-small" type="text">
+								</span>
+							</div>
+							<div class="span2">
+								<label class="checkbox text-info"><h4>Negotiable</h4></label>
+								<input class="offset2" type="checkbox">
+							</div>
+						</div>
+							
+						<div class="row-fluid">
+							<div class="span3">
+								<label class="text-info" for="inputBrand"><h4>Brand</h4></label>
+								<input id="inputBrand" class="input-medium" type="text" placeholder="Enter brand name">	
+							</div>
+								
+							<div class="span5">
+								<label class="text-info" for="inputAvailableDate"><h4>Available On</h4></label>
+								<input id="inputAvailableDate" class="input-medium" type="date">
+							</div>
+						</div>
+
+						<div class="row-fluid">
+							<div class="span2">
+								<label class="text-info" for="inputWidth"><h4>Width</h4></label>
+								
+							</div>
+							<div class="span2">
+								<label class="text-info" for="inputHeight"><h4>Height</h4></label>
+								
+							</div>
+							<div class="span4">
+								<label class="text-info" for="inputDepth"><h4>Depth</h4></label>
+								
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span2">
+								<input id="inputWidth" class="input-small" type="text">
+							</div>
+							<div class="span2">
+								<input id="inputHeight" class="input-small" type="text">
+							</div>
+							<div class="span2">
+								<input id="inputDepth" class="input-small" type="text">
+							</div>
+							<div class="span2">
+								<select id="selectUnit" class="input-small">
+									<option>inch</option>
+									<option>cm</option>
+								</select>
+							</div>
+						</div>
+					
+						<div class="row-fluid">
+							<label class="text-info" for="inputDesc"><h4>Additional Description</h4></label>
+							<textarea class="span8" id="inputDesc" row="3"></textarea>
+						</div>
+						
+							<button class="btn btn-small btn-primary" type="button">Add Item</button>
+						
+						
+					</div>
+				
+					<div id="listItemToPost" class="span4">
+							<legend><h2>List of Item(s)</h2></legend>
+							<ol>
+								<li>item1</li>
+								<li>item2</li>
+							</ol>
+					</div>
+				</div>
+			</form>
+		</div> <!--contain-fluid-->
+	</body>
+	</html>
+
