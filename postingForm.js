@@ -57,7 +57,9 @@ $(document).ready( function(){
 	});
 
 	loadFromStorage();
-
+	
+	//bind button clicking on deleting list items
+	removeListItem();
 	return false;
 		
 });
