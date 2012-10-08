@@ -5,7 +5,11 @@
 
 		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+		<!--Extra styling beyond bootstrap-->
+		<link href="style.css" rel="stylesheet">
+
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+		
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
@@ -161,7 +165,16 @@
 							<ul id="listItems">
 							</ul>
 							<button id="btnPost" class="btn btn-small btn-primary" type="button">Post To Craigslist</button>
+							<button id='btnClear' class='btn btn-mini btn-warning' type='button'>Clear</button>
 					</div>
+				</div>
+				<div id='descriptionPreview'>
+					<h3>Posting Description - Preview</h3>
+					<div id='previewArea'>
+						<ul id='descriptionItems'></ul>
+						<br>
+					</div>
+					<button id='btnClearPreview' class='btn btn-mini btn-warning' type='button'>Clear</button>
 				</div>
 			</form>
 		</div> <!--contain-fluid-->

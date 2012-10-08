@@ -12,6 +12,8 @@ var listCounter = 0;
 
 $(document).ready( function(){
 
+	autocomplete();
+
 	//Toggle the Delivery Fee input box
 	//Delivery Fee is hidden by default. Only show if user checks off delivery option
 	$('#divDeliveryFee').hide();
@@ -47,7 +49,18 @@ $(document).ready( function(){
 	$('#btnPost').click(function() {
 		postToCraigslist();
 	});
+	
+	$('#btnClear').click(function() {
+		clearList();
+	});
 
+	$('#btnClear').click(function() {
+		clearList();
+	});
+	
+	$('#btnClearPreview').click(function() {
+		$('#descriptionItems').empty();
+	});
 	
 	//make items in the list sortable
 	$('#listItems').sortable();
@@ -108,6 +121,9 @@ function appendToItemList(){
 	$('#listItems').append(listItemStr);
 
 	listCounter ++;
+
+	//Show full length item descriptions
+	populateDescription();
 
 	removeListItem();
 }
@@ -224,3 +240,99 @@ function loadFromStorage(){
 		});
 	}
 }
+
+/****************************************
+Function: populateDescription()
+Description:
+	make the description preview
+
+****************************************/
+function populateDescription(){
+
+	//On the condition that negotiable is checked add to price section
+	var negotiable = ""	
+	if ($('#chkNegotiable').is(':checked')) {
+		negotiable = " - price is negotiable"
+	};
+
+
+	var condition = ""	
+	if ($('#inputCondition').val() != "") {
+		condition = $('#inputCondition').val() + " condition."
+	};
+
+	var description = ""	
+	if ($('#inputDesc').val() != "") {
+		description = "Description: " + $('#inputDesc').val()
+	};
+
+	//This variable (previewListing) populates into the posting Description
+	var previewListing = "<li>" 
+	+ $('#inputBrand').val() + " " 
+	+ $('#inputModel').val() + " " 
+	+ $('#inputFurnitureType').val() 
+	+ " ($" + $('#inputPrice').val() + negotiable+ ") " 
+	+ condition
+	+ description + "</li"
+	
+	$('#descriptionPreview').show();
+	$('#descriptionItems').append(previewListing);
+
+	$('#descriptionItems')
+}
+
+
+
+function clearList(){
+	$('#listItems').empty();
+};
+
+function autocomplete(){
+	//Pulled list from ebay  (http://pages.ebay.com/furniture/)
+	var availableTags = [
+			'Fireplace Accessory', 
+			'Foot stool', 
+			'Futon', 
+			'Occasional table', 
+			'Recliner', 
+			'Sofa', 
+			'Loveseat',  
+			'Lamp', 
+			'Mirror', 
+			'Armoire', 
+			'Coat/hat rack', 
+			'Curio cabinet', 
+			'Rocking chair', 
+			'Trunk', 
+			'Bar stool', 
+			'Buffet, sideboard', 
+			'China cabinet', 
+			'Storage',
+			'Display', 
+			'Table', 
+			'Chair', 
+			'Wine rack', 
+			'Bed', 
+			'Mattress', 
+			'Dresser', 
+			'Guest sleeper', 
+			'Night stand', 
+			'Vanity', 
+			'Desk', 
+			'High chair', 
+			'Toy box', 
+			'Bench', 
+			'Swings', 
+			'Slide', 
+			'Umbrella', 
+			'Bookcase', 
+			'Office lamp', 
+			'Home audio/theater', 
+			'Jukebox', 
+			'Pinball machine', 
+			'TV'
+		];
+	$( "#inputFurnitureType" ).autocomplete({
+		source: availableTags
+	});
+};
