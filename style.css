@@ -9,3 +9,9 @@
 #descriptionItems{
 	list-style-type: none;
 }
+/*#inputFurnitureType{border:1px solid #ccc;padding:5px;}
+		#inputFurnitureType span b{float:right;margin:3px 0 0 3px;font-size:10px;color:red;cursor:pointer}
+		#inputFurnitureType span{font-weight:bold;display:inline-block;border:1px solid #eee;padding:0 4px;margin-right:5px;-moz-border-radius:5px;}
+		#inputFurnitureType input{border:0;}
+		.highlight{background:#DFF7FF}
+		#inputFurnitureType .list_name{overflow-y:scroll;height:200px}*/

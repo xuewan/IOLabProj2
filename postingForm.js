@@ -13,6 +13,7 @@ var listCounter = 0;
 $(document).ready( function(){
 
 	autocomplete();
+	$('#descriptionPreview').hide()
 
 	//Toggle the Delivery Fee input box
 	//Delivery Fee is hidden by default. Only show if user checks off delivery option
