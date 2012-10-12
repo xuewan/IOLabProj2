@@ -111,20 +111,24 @@ function appendToItemList(){
 			
 	});
 
-	var itemName = itemBrand == ""? itemType : itemBrand + " " +itemType;
 
+	//Show full length item descriptions
+	refNum=populateDescription();
+
+	var itemName = itemBrand == ""? itemType : itemBrand + " " +itemType;
+		// console.log(listItemStr)
 	var listItemStr = "<li id='"+ listCounter 
 						+"'><button type='button' class='btn btn-mini'>X</button><strong>" 
 						+itemName + "</strong> $" + itemPrice 
 						+ "<span class='hide-text'>" 
-						+ itemDesc + "</span></li>"
-
+						+ itemDesc + refNum + "</span></li>"
+	var itemObject = {
+		"type": $('#inputFurnitureType').val(),
+	}
+	console.log(listItemStr)
 	$('#listItems').append(listItemStr);
 
 	listCounter ++;
-
-	//Show full length item descriptions
-	populateDescription();
 
 	removeListItem();
 }
@@ -168,7 +172,12 @@ Description:
 
 ****************************************/
 function postToCraigslist(){
+	$('#descriptionPreview').show();
+	$('#listItems').each(function(){
+		$('#descriptionItems').append(this);
+	});
 
+/* Old Code  #######
 	//header of the post
 	var postTitle = $('#inputPostTitle').val();
 	var email = $('#inputEmail').val();
@@ -184,8 +193,8 @@ function postToCraigslist(){
 		 deliveryFee = $('inputDeliveryFee').val() == ""? "0" : $('inputDeliveryFee').val();
 
 	//details of individual items
-	
-}
+	#######*/
+};
 
 /****************************************
 Function: removeListItem()
@@ -248,10 +257,15 @@ Description:
 	make the description preview
 
 ****************************************/
+//global object to save all the description line items
+var itemDescriptions = new Array()
+var refNum = 0;
+
 function populateDescription(){
 
 	//On the condition that negotiable is checked add to price section
-	var negotiable = ""	
+	
+	var negotiable = ""	;
 	if ($('#chkNegotiable').is(':checked')) {
 		negotiable = " - price is negotiable"
 	};
@@ -274,12 +288,17 @@ function populateDescription(){
 	+ $('#inputFurnitureType').val() 
 	+ " ($" + $('#inputPrice').val() + negotiable+ ") " 
 	+ condition
-	+ description + "</li"
+	+ description + "</li";
 	
-	$('#descriptionPreview').show();
-	$('#descriptionItems').append(previewListing);
+	
+	itemDescriptions.push(previewListing)
+	return itemDescriptions.length-1;
+	
+	
 
-	$('#descriptionItems')
+	//put in preview div
+	//$('#descriptionPreview').show();
+	//$('#descriptionItems').append(previewListing);
 }
 
 
