@@ -9,6 +9,18 @@
 #descriptionItems{
 	list-style-type: none;
 }
-#inputFurnitureType{
-	/*background-color: blue;*/
+
+.dropbox{
+	border-radius: 3px;
+	border: 1px solid gray;	
+	width:100%;
+	padding:1ppx;
+	margin: 0px
+	height:300px;
+	text-align: center;
+}
+.thumb{
+	height: 160px;
+	border: 1px solid #000;
+	margin: 10px 5px 0 0;
 }

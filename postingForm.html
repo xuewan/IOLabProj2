@@ -4,7 +4,7 @@
 		<title>Post Items</title>
 
 		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+		
 		<!--Extra styling beyond bootstrap-->
                 <link href="style.css" rel="stylesheet">
                 <!-- jQuery UI theme CSS -->
@@ -18,17 +18,21 @@
 
 		<script src="postingForm.js"></script>
 
+		<script src="jquery.spellcheck.js" type="text/javascript"></script>
+
+		<script src="jquery.filedrop.js" type="text/javascript"></script>
+
 	</head>
 	<body>
 		<div class="container-fluid">
 			
-			<form id="formPost">
+			<!--<form id="formPost"> -->
 		
 					<div id="formPostHeader">
 						<div class="row-fluid">
 							<legend><h3>Post Your Items</h3></legend>
 							<label class="text-info" for="inputPostTitle"><h4>Posting Title</h4>			
-							<input id="inputPostTitle" class="input-xlarge" type="text" placeholder="Enter the title of your post"></label>
+							<input id="inputPostTitle" class="input-xlarge" type="text" placeholder="Enter the title of your post" spellcheck="true"></label>
 						</div>
 						<div class="row-fluid">
 							<label class="text-info" for="inputEmail"><h4>Your Email<h4></label>
@@ -69,9 +73,9 @@
 						</div>
 						<div class='row-fluid'>
 							<div class='span 3'>
-								<label class='text-info' for='postingNotes'><h4>Entire Post Description</h4></label>
+								<label class='text-info' for='postingNotes'><h4>Notes For Entire Post</h4></label>
 								<span class='input-prepend'>
-									<input class="input-xxlarge" type="text" placeholder="Description">
+									<input class="input-xxlarge" type="text" placeholder="Description" spellcheck="true">
 							</div>
 						</div>
 					</div>	<!--end div fromPostHead -->		
@@ -87,7 +91,7 @@
 							<div class="span3 control-group" id="divFurnitureType">
 								<label class="text-info" for="inputFurnitureType"><h4>Furniture Type</h4></label>
 								<div class="controls">
-									<input id="inputFurnitureType" class="input-medium" type="text" placeholder="Enter furniture type">	
+									<input id="inputFurnitureType" class="input-medium" type="text" placeholder="Enter furniture type" spellcheck="true">	
 								</div>
 							</div>
 							<div class="span3">
@@ -124,7 +128,7 @@
 
 							<div class="span3">
 								<label class="text-info" for="inputBrand"><h4>Brand</h4></label>
-								<input id="inputBrand" class="input-medium" type="text" placeholder="Enter brand">	
+								<input id="inputBrand" class="input-medium" type="text" placeholder="Enter brand" spellcheck="true">	
 							</div>
 
 							<div class="span2">
@@ -168,10 +172,21 @@
 						</div>
 					
 						<div class="row-fluid">
-							<label class="text-info" for="inputDesc"><h4>Additional Description</h4></label>
-							<textarea class="span6" id="inputDesc" row="2"></textarea>
+							<label class="text-info" for="inputDesc"><h4>Additional Item Description</h4></label>
+							<textarea class="span6" id="inputDesc" row="2" spellcheck="true"></textarea>
 						</div>
 						
+						
+
+						<!-- WX: Added division for uploading images for a single item-->
+						<div class="row-fluid">
+							<div id="imgDropZone" class="dropbox span6"><span class="muted"><br><h4>Drag & Drop Item Pictures Here</h4><br></span>
+						</div> 
+						</div>
+						<div class="row-fluid">	
+							<ul id="imgList" class="thumbnails"></ul>
+						</div>
+						<!-- end of image section  -->
 						<div id="divErrorMsg" class="alert">
 							<button id="btnDismiss" type="button" class="close">x</button>
 							<span></span>
@@ -184,11 +199,14 @@
 							<legend><h3>List of Item(s)</h3></legend>
 							<ul id="listItems">
 							</ul>
-							<button id="btnPost" class="btn btn-small btn-primary" type="button">Post To Craigslist</button>
+							<button id="btnPost" class="btn btn-small btn-primary" type="button">Preview Post</button>
 							<button id='btnClear' class='btn btn-mini btn-warning' type='button'>Clear</button>
 					</div>
 				</div>
-				<div id='descriptionPreview'>
+				<br>
+				
+				<br>
+				<div class="row-fluid" id='descriptionPreview'>
 					<h3>Posting Description - Preview</h3>
 					<div id='previewArea'>
 						<ul id='descriptionItems'></ul>
@@ -196,8 +214,8 @@
 					</div>
 					<button id='btnClearPreview' class='btn btn-mini btn-warning' type='button'>Clear</button>
 				</div>
-			</form>
-		</div> <!--contain-fluid-->
+		<!--	</form> -->
+		</div> <!-- end div contain-fluid-->
 	</body>
 	</html>
 

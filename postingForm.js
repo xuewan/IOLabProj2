@@ -55,10 +55,6 @@ $(document).ready( function(){
 		clearList();
 	});
 
-	$('#btnClear').click(function() {
-		clearList();
-	});
-	
 	$('#btnClearPreview').click(function() {
 		$('#descriptionItems').empty();
 	});
@@ -74,6 +70,25 @@ $(document).ready( function(){
 	
 	//bind button clicking on deleting list items
 	removeListItem();
+
+	//bind spell checking event
+	$(':input[spellcheck=true]').spellcheck();
+	$('#inputDesc').spellcheck({ events: 'keyup' });
+
+	//check for HTML5 File API support
+	if(window.File && window.FileReader && window.FileList && window.Blob){
+		console.log("HTML5 filereader works");
+	}
+	else{
+		console.log("File API is not fully supported in this browser");
+	}
+
+	$('#imgDropZone').bind("drop", function(event){
+		handleFileSelect(event);
+	});
+
+	$('#imgDropZone li').draggable();
+
 	return false;
 		
 });
@@ -356,3 +371,44 @@ function autocomplete(){
 		source: availableTags
 	});
 };
+
+/****************************************
+Function: handleFileSelect()
+Description:
+	respond to the event of dropping an image file
+	HTML5 API
+
+****************************************/
+function handleFileSelect(event){
+	event.stopPropagation();
+	event.preventDefault();
+
+	var file = event.dataTransfer.files; //get the FileList object
+
+	var output = [];
+	for (var i=0,f; f=file[i]; i++){
+		//process iamge files
+		if(!f.type.match('image.*')){
+			continue; //skip any file that is not an image
+		}
+
+		var reader = new  FileReader();
+		reader.onload = (function(theFile){
+			return function(event){
+
+				var image = "<li>" +
+					"<h5 class='muted'>" + theFile.name + "</h5>" +
+					"<img class='thumb' title='" 
+						+theFile.name+ "'' src='"+event.target.result+"'></li>" ;
+				$('#imgList').append(image);
+			};
+		})(f);
+
+		reader.readAsDataURL(f);
+
+	}
+	return false;
+
+}
+
+
