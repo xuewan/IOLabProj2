@@ -397,7 +397,7 @@ function handleFileSelect(event){
 			return function(event){
 
 				var image = "<li>" +
-					"<h5 class='muted'>" + theFile.name + "</h5>" +
+					"<h5 class='muted'>" + theFile.name + "</h5><i class='icon-remove'> </i>" +
 					"<img class='thumb' title='" 
 						+theFile.name+ "'' src='"+event.target.result+"'></li>" ;
 				$('#imgList').append(image);
