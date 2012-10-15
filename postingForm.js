@@ -55,6 +55,7 @@ $(document).ready( function(){
 
 	$('#btnClearPreview').click(function() {
 		$('#descriptionItems').empty();
+		$('#deliverySection').empty();
 	});
 	
 	//make items in the list sortable
@@ -320,26 +321,57 @@ function populateDescription(){
 	var negotiable = ""	;
 	if ($('#chkNegotiable').is(':checked')) {
 		negotiable = " - price is negotiable"
-	};
+	}
 
 
-	var condition = ""	
-	if ($('#inputCondition').val() != "") {
-		condition = $('#inputCondition').val() + " condition."
-	};
+	var condition = "";
+	if ($('#inputCondition').val() !== "") {
+		condition = $('#inputCondition').val() + " condition. "
+	}
 
-	var description = ""	
-	if ($('#inputDesc').val() != "") {
+	var description = "";	
+	if ($('#inputDesc').val() !== "") {
 		description = "Description: " + $('#inputDesc').val()
 	};
+
+	
+	//width
+	var w = '';
+	if ($('#inputWidth').val() !== "") {
+		w = "W: " + $("#inputWidth").val() + $("#selectUnit").val();
+	}
+
+	//height
+	var h = '';
+	if ($('#inputHeight').val() !== "") {
+		h = ', H: ' + $("#inputHeight").val() + $("#selectUnit").val();
+	};
+
+	//depth
+	var d = '';
+	if ($('#inputDepth').val() !== "") {
+		d = ', D: ' + $("#inputDepth").val() + $("#selectUnit").val();
+	};
+	
+	//if input exists for 'Width' 'Height' or 'Depth' then populate
+	var dimentions = '';
+	if ($('#inputWidth').val() + $('#inputWidth').val() + $('#inputWidth').val() !=='') {
+	dimentions = "("+ w + h + d + ")";	
+	};
+	
+
+	var imageSource = '';
+
+
 
 	//This variable (previewListing) populates into the posting Description
 	var previewListing = "<li>" 
 	+ $('#inputBrand').val() + " " 
 	+ $('#inputModel').val() + " " 
 	+ $('#inputFurnitureType').val() 
-	+ " ($" + $('#inputPrice').val() + negotiable+ ") " 
+	+ " ($" + $('#inputPrice').val() + negotiable+ "). " 
 	+ condition
+	+ dimentions
 	+ description + "</li";
 
 	return previewListing;
@@ -410,7 +442,8 @@ function autocomplete(){
 			'Home audio/theater', 
 			'Jukebox', 
 			'Pinball machine', 
-			'TV'
+			'TV',
+			'Couch'
 		];
 	$( "#inputFurnitureType" ).autocomplete({
 		source: availableTags
