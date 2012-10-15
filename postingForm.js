@@ -152,6 +152,14 @@ function appendToItemList(){
 	console.log(fullListItem);
 	$('#listItems').append(listItemStr);
 
+	//WX: add the item id to each of its images
+	$('#imgList li').each(function(){
+		var image = $(this).find('img');
+		var imgDomEL = image[0];
+		$(imgDomEL).attr("itemid","item"+listCounter);
+		console.log(imgDomEL);
+	});
+
 	listCounter ++;
 
 	//WX: bind delete item from list action to button clicking
@@ -230,7 +238,18 @@ function removeListItem(){
 
 	//bind button click event to the delete button on the list items
 	$('#listItems button').on("click", function(){	
+		var itemId = $(this).parent().attr("id");
+		console.log(itemId);
 		$(this).parent().remove();
+		
+		if(listCounter>0){
+			listCounter--;
+		}
+	
+		console.log(listCounter);
+		//WX: remove the images associated with the item as well
+
+		$("#galleryImgs > li > img[itemId='item"+itemId+"']").remove();
 	}); 
 }
 
@@ -344,6 +363,7 @@ function clearList(){
 	fullListItem = {};
 
 	$('#galleryImgs').empty();
+	listCounter = 0;
 };
 
 //Furniture Type Autocomplete function
@@ -423,7 +443,7 @@ function handleFileSelect(event){
 
 				var image = "<li>" +
 					"<h5 class='muted'>" + theFile.name + " <i class='icon-remove'></i></h5>" +
-					"<img class='thumb' title='" 
+					"<img class='thumb' itemid='' title='" 
 						+theFile.name+ "'' src='"+event.target.result+"'></li>" ;
 				$('#imgList').append(image);
 
