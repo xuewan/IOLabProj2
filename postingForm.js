@@ -42,8 +42,6 @@ $(document).ready( function(){
 		var errMsg = validateInputs();
 		if(errMsg == ""){
 			appendToItemList();
-			//clear this part of the form so user can enter the next item
-		//	$('#formPostItems :input:not(:button)').val("");
 		}
 	});
 
@@ -126,6 +124,10 @@ function appendToItemList(){
 			
 	});
 
+	//WX: added following line to calculate number of images for this item
+	var numImgs = $('#imgList li').length;
+	//console.log(numImgs);
+
 
 	//Show full length item descriptions
 	refNum=populateDescription();
@@ -135,17 +137,25 @@ function appendToItemList(){
 	var listItemStr = "<li id='"+ listCounter 
 						+"'><button type='button' class='btn btn-mini'>X</button><strong>" 
 						+itemName + "</strong> $" + itemPrice 
+						+ " (" + numImgs + " images)"
 						+ "<span class='hide-text'>" 
 						+ itemDesc + refNum + "</span></li>"
 	var itemObject = {
 		"type": $('#inputFurnitureType').val(),
 	}
-	console.log(listItemStr)
+	//console.log(listItemStr);
 	$('#listItems').append(listItemStr);
 
 	listCounter ++;
 
+	//WX: bind delete item from list action to button clicking
 	removeListItem();
+
+	//WX: move item images to gallery
+	moveImagesToGallery();
+	
+	//WX: rest the item form after item is added to the list on the right
+	clearForNextItem();
 }
 
 /****************************************
@@ -320,6 +330,7 @@ function populateDescription(){
 
 function clearList(){
 	$('#listItems').empty();
+	$('#galleryImgs').empty();
 };
 
 function autocomplete(){
@@ -375,9 +386,9 @@ function autocomplete(){
 /****************************************
 Function: handleFileSelect()
 Description:
-	respond to the event of dropping an image file
-	HTML5 API
-
+	respond to the event of dropping an image file into the dropbox area
+	use HTML5 File API and JQuery FileDrop API
+	Render dropped image into thumbnail and display underneather the dropbox area
 ****************************************/
 function handleFileSelect(event){
 	event.stopPropagation();
@@ -397,18 +408,60 @@ function handleFileSelect(event){
 			return function(event){
 
 				var image = "<li>" +
-					"<h5 class='muted'>" + theFile.name + "</h5><i class='icon-remove'> </i>" +
+					"<h5 class='muted'>" + theFile.name + " <i class='icon-remove'></i></h5>" +
 					"<img class='thumb' title='" 
 						+theFile.name+ "'' src='"+event.target.result+"'></li>" ;
 				$('#imgList').append(image);
+
+				//bind the click event to delete image
+				bindDeleteImage();
 			};
 		})(f);
 
 		reader.readAsDataURL(f);
 
+		
 	}
 	return false;
-
 }
 
+/****************************************
+Function: deleteImage()
+Description:
+	Delete an image when user clicks on the delete icon next to the image thumbnail
 
+****************************************/
+function bindDeleteImage(){
+	$('#imgList i').on("click", function(){
+		$(this).parents('li').remove();
+	});
+}
+
+/****************************************
+Function: moveImagesToGallery()
+Description:
+	When user add an item to the sales list, move the images of the item to the gallery
+
+****************************************/
+function moveImagesToGallery(){
+		
+		$('#imgList li').each(function(){
+		
+			var image = $(this).find('img');
+			var imgDomEL= image[0];
+			var li = $('<li></li>').append(imgDomEL);
+			//console.log(str);
+			$('#galleryImgs').append(li);
+			$(this).remove();
+		});
+}
+
+/****************************************
+Function: clearForNextItem()
+Description:
+	clear the input fields for the item form in order to enter data for the next item
+	move all images of the current item to gallery
+****************************************/
+function clearForNextItem(){
+	$('#formPostItems :input:not(:button, :checkbox)').val("");
+}

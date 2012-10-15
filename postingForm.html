@@ -103,7 +103,7 @@
 
 							<div class="span2">
 								<label class="checkbox text-info" for="chkNegotiable"><h4>Negotiable</h4></label>
-								<input id="chkNegotiable" class="offset2" type="checkbox">
+								<input id="chkNegotiable" class="offset2" type="checkbox" checked="checked">
 							</div>
 						</div>
 							
@@ -181,7 +181,7 @@
 						<!-- WX: Added division for uploading images for a single item-->
 						<div class="row-fluid">
 							<div id="imgDropZone" class="dropbox span6"><span class="muted"><br><h4>Drag & Drop Item Pictures Here</h4><br></span>
-						</div> 
+							</div> 
 						</div>
 						<div class="row-fluid">	
 							<ul id="imgList" class="thumbnails"></ul>
@@ -194,14 +194,20 @@
 						<button id="btnAdd" class="btn btn-small btn-primary" type="button">Add Item</button>
 						
 					</div>
-				
-					<div class="span4">
-							<legend><h3>List of Item(s)</h3></legend>
-							<ul id="listItems">
-							</ul>
-							<button id="btnPost" class="btn btn-small btn-primary" type="button">Preview Post</button>
-							<button id='btnClear' class='btn btn-mini btn-warning' type='button'>Clear</button>
+					
+					<div id="listPostItems" class="span4">
+						<div class="row-fluid">
+								<legend><h3>List of Item(s)</h3></legend>
+								<ul id="listItems">
+								</ul>
+								<button id="btnPost" class="btn btn-small btn-primary" type="button">Preview Post</button>
+								<button id='btnClear' class='btn btn-mini btn-warning' type='button'>Clear</button>
+						</div>
+						<div id="imgGallery" class="row-fluid">
+							<ul id="galleryImgs" class="thumbnails"></ul>
+						</div>
 					</div>
+
 				</div>
 				<br>
 				
