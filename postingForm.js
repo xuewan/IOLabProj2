@@ -8,7 +8,7 @@ listItemId : html string
 
 //listCounter is used to id an item added to the sales list
 var listCounter = 0;
-
+var fullListItem = {};
 
 $(document).ready( function(){
 
@@ -48,7 +48,7 @@ $(document).ready( function(){
 	});
 
 	$('#btnPost').click(function() {
-		postToCraigslist();
+		postToPreview();
 	});
 	
 	$('#btnClear').click(function() {
@@ -90,7 +90,11 @@ $(document).ready( function(){
 	$('#imgDropZone li').draggable();
 
 	return false;
-		
+	
+	
+
+
+	
 });
 
 /****************************************
@@ -126,10 +130,6 @@ function appendToItemList(){
 			
 	});
 
-
-	//Show full length item descriptions
-	refNum=populateDescription();
-
 	var itemName = itemBrand == ""? itemType : itemBrand + " " +itemType;
 		// console.log(listItemStr)
 	var listItemStr = "<li id='"+ listCounter 
@@ -137,10 +137,16 @@ function appendToItemList(){
 						+itemName + "</strong> $" + itemPrice 
 						+ "<span class='hide-text'>" 
 						+ itemDesc + refNum + "</span></li>"
+	
+
+	
 	var itemObject = {
 		"type": $('#inputFurnitureType').val(),
 	}
-	console.log(listItemStr)
+	
+	//Save the #listItems in an array with the full-length descriptions
+	fullListItem[listCounter] = populateDescription();
+	console.log(fullListItem);
 	$('#listItems').append(listItemStr);
 
 	listCounter ++;
@@ -182,34 +188,27 @@ function validateInputs(){
 
 /****************************************
 Function: postToCraigslist()
-Description:
-	construct the content of the posting and post to the Craigslist
-
+Description: Makes a preview of the posting description 
+that shows:
+Notes for Entire Post,
+Delivery availability,
+and Item Summaries
+For questions, ask Morgan Wallace
 ****************************************/
-function postToCraigslist(){
+function postToPreview(){
+	//$('#previewDescription').remove();
+	$("#previewDescription").html($('#postingNotes').val()); 
+	$("#deliverySection").html(deliverable())
+	$("#descriptionItems").empty(); //remove old list items
 	$('#descriptionPreview').show();
-	$('#listItems').each(function(){
-		$('#descriptionItems').append(this);
-	});
-
-/* Old Code  #######
-	//header of the post
-	var postTitle = $('#inputPostTitle').val();
-	var email = $('#inputEmail').val();
-	var emailAgain = $('#inputEmailAgain').val();
-	var emailDisplayOption = $(':input[name=radioEmailOptions]:checked').val();
-
-	var delivery = $('chkDelivery').val();
-	var deliveryFed = "";
 	
-	var msg = "";
+	//for each item in "List of Item(s)" find the full
+	//description in 'fullListItem' object by using 'id' as the key
+	$("#listItems li").each(function(){
+		$('#descriptionItems').append(fullListItem[($(this).attr('id'))]);
+	});
+}
 
-	if($('chkDelivery').is(':checked'))
-		 deliveryFee = $('inputDeliveryFee').val() == ""? "0" : $('inputDeliveryFee').val();
-
-	//details of individual items
-	#######*/
-};
 
 /****************************************
 Function: removeListItem()
@@ -224,6 +223,7 @@ function removeListItem(){
 		$(this).parent().remove();
 	}); 
 }
+
 /****************************************
 Function: saveToStorage()
 Description:
@@ -233,17 +233,15 @@ Description:
 function saveToStorage(){
 	var items = [];
 	var thisItem;
-
-	//localStorage['test']="test";
-
-	$('#listItems li').each(function(){
+	
+	$('#listItems').each(function(){
 		thisItem = $(this).html();
 		items.push(thisItem);
 	});
 
 	//convert the array of items to JSON string
 	localStorage['saleList'] = JSON.stringify(items);
-
+	localStorage['savedDescription'] = JSON.stringify(fullListItem);
 }
 
 /****************************************
@@ -261,16 +259,26 @@ function loadFromStorage(){
 
 		$(items).each(function(index){
 			//alert(items[index]);
-			$('#listItems').append("<li>"+items[index] + "</li>");
+			$('#listItems').append(items[index]);
 		});
 	}
+
+	//load data back into 'fullListItem' object for use in postToPreview()
+	if(localStorage['savedDescription']){
+		fullListItem = JSON.parse(localStorage['savedDescription']);
+		
+		//update listCounter with accurate number of 
+		$('#listItems li').each(function(){
+			listCounter++;
+		});
+
+	}
+
 }
 
 /****************************************
 Function: populateDescription()
-Description:
-	make the description preview
-
+Description: Create Item descriptions that will display in Craigslist
 ****************************************/
 //global object to save all the description line items
 var itemDescriptions = new Array()
@@ -304,24 +312,29 @@ function populateDescription(){
 	+ " ($" + $('#inputPrice').val() + negotiable+ ") " 
 	+ condition
 	+ description + "</li";
-	
-	
-	itemDescriptions.push(previewListing)
-	return itemDescriptions.length-1;
-	
-	
 
-	//put in preview div
-	//$('#descriptionPreview').show();
-	//$('#descriptionItems').append(previewListing);
+	return previewListing;
 }
 
+function deliverable(){
+	var delivDisplay =''
+	if ($('#chkDelivery').is(':checked')){
+			if ($('#inputDeliveryFee').val()) {
+				delivDisplay='Delivery is available for $' + $('#inputDeliveryFee').val()
+			}
+			else delivDisplay='Delivery is available';
+	}
+	else delivDisplay='Delivery not available';
+	return delivDisplay;
+}
 
 
 function clearList(){
 	$('#listItems').empty();
+	fullListItem = {};
 };
 
+//Furniture Type Autocomplete function
 function autocomplete(){
 	//Pulled list from ebay  (http://pages.ebay.com/furniture/)
 	var availableTags = [
