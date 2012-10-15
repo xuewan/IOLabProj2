@@ -88,7 +88,11 @@ $(document).ready( function(){
 	$('#imgDropZone li').draggable();
 
 	return false;
-		
+	
+	
+
+
+	
 });
 
 /****************************************
@@ -124,14 +128,17 @@ function appendToItemList(){
 			
 	});
 
+<<<<<<< HEAD
 	//WX: added following line to calculate number of images for this item
 	var numImgs = $('#imgList li').length;
 	//console.log(numImgs);
 
 
 	//Show full length item descriptions
-	//refNum=populateDescription();
+	refNum=populateDescription();
 
+=======
+>>>>>>> 80ed8237ccc7b73e39f69111a4e0c17bdd259508
 	var itemName = itemBrand == ""? itemType : itemBrand + " " +itemType;
 		// console.log(listItemStr)
 	var listItemStr = "<li id='"+ listCounter 
@@ -146,10 +153,14 @@ function appendToItemList(){
 	var itemObject = {
 		"type": $('#inputFurnitureType').val(),
 	}
+<<<<<<< HEAD
+	//console.log(listItemStr);
+=======
 	
 	//Save the #listItems in an array with the full-length descriptions
 	fullListItem[listCounter] = populateDescription();
 	console.log(fullListItem);
+>>>>>>> 80ed8237ccc7b73e39f69111a4e0c17bdd259508
 	$('#listItems').append(listItemStr);
 
 	listCounter ++;
@@ -197,7 +208,7 @@ function validateInputs(){
 }
 
 /****************************************
-Function: postToPreview()
+Function: postToCraigslist()
 Description: Makes a preview of the posting description 
 that shows:
 Notes for Entire Post,
@@ -341,9 +352,11 @@ function deliverable(){
 
 function clearList(){
 	$('#listItems').empty();
-	fullListItem = {};
-
+<<<<<<< HEAD
 	$('#galleryImgs').empty();
+=======
+	fullListItem = {};
+>>>>>>> 80ed8237ccc7b73e39f69111a4e0c17bdd259508
 };
 
 //Furniture Type Autocomplete function

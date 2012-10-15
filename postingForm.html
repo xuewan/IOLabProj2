@@ -75,14 +75,11 @@
 							<div class='span 3'>
 								<label class='text-info' for='postingNotes'><h4>Notes For Entire Post</h4></label>
 								<span class='input-prepend'>
-									<input class="input-xxlarge" type="text" placeholder="Description" spellcheck="true">
+									<input class="input-xxlarge" type="text" placeholder="Description" spellcheck="true" id='postingNotes'>
 							</div>
 						</div>
-					</div>	<!--end div fromPostHead -->		
-			
-							
-				
-
+					</div>	<!--end div fromPostHead -->	
+					
 				<div class="row-fluid">
 					<div id="formPostItems" class="span8">
 						<legend><h3>Item Description</h3></legend>			
@@ -215,7 +212,9 @@
 				<div class="row-fluid" id='descriptionPreview'>
 					<h3>Posting Description - Preview</h3>
 					<div id='previewArea'>
+						<h6 id='previewDescription'></h6>
 						<ul id='descriptionItems'></ul>
+						<h8 id='deliverySection'></h8>
 						<br>
 					</div>
 					<button id='btnClearPreview' class='btn btn-mini btn-warning' type='button'>Clear</button>
