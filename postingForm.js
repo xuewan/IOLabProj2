@@ -9,7 +9,7 @@ listItemId : html string
 //listCounter is used to id an item added to the sales list
 var listCounter = 0;
 var fullListItem = {};
-var imgWidth = 80;
+var imgWidth = 120;
 $(document).ready( function(){
 
 	$('#sendToCraigslist').attr('disabled', "disabled");
@@ -60,7 +60,7 @@ $(document).ready( function(){
 		$('#deliverySection').empty();
 		$('#sendToCraigslist').attr('disabled', "disabled");
 		$("#btnClearPreview").hide();
-		$('#previewArea').hide();
+		$('#descriptionPreview').hide();
 		$("#pictureSizing").hide();
 	});
 	
@@ -94,6 +94,7 @@ $(document).ready( function(){
 
 	$('#imgDropZone li').draggable();
 
+	//MW: Image resizing
 	$("#imgSizer").keyup(function(){
 		resizeImages($(this).val());
 	})
@@ -108,7 +109,7 @@ $(document).ready( function(){
 		newSize = parseInt($("#imgSizer").val())-10;
 		$("#imgSizer").val(newSize);
 		resizeImages(newSize);
-	})
+	})//end Image Resizing
 
 	return false;
 		
@@ -237,6 +238,7 @@ function postToPreview(){
 	$("#deliverySection").html(deliverable())
 	$("#descriptionItems").empty(); //remove old list items
 	$('#descriptionPreview').show();
+	$("#pictureSizing").show();
 	$("#btnClearPreview").show();
 	$('#sendToCraigslist').attr('disabled', false);
 	
@@ -333,7 +335,7 @@ Description:
 
 
 function populateDescription(){
-	
+	$("#imgSizer").show();
 	var negotiable = ""	;
 	if ($('#chkNegotiable').is(':checked')) {
 		negotiable = " - price is negotiable"
@@ -402,6 +404,7 @@ Description:
 function appendImages(w){
 	var imageArray = [];
 	var aspectRatio = 1;
+	console.log(imgWidth);
 	//make image tag for each uploaded image
 	$("#imgList li").each(function(){
 		aspectRatio = $(this).find('img').width() / $(this).find('img').height();
@@ -585,11 +588,12 @@ function clearForNextItem(){
 
 function resizeImages(w){
 	var newWidth = w;
-		console.log(newWidth);
+		//console.log(newWidth);
 		if (newWidth>9 && newWidth<500) {
 			imgWidth = newWidth;
+			console.log(imgWidth);
 			$(".thumbPreview").each(function(i){
-				console.log($(this).width());
+				//console.log($(this).width());
 				$(this).height(newWidth / ($(this).width() / $(this).height()));
 				$(this).width(newWidth);		
 			});
