@@ -196,8 +196,8 @@
 						<div class="row-fluid">
 								<legend><h3>List of Item(s)</h3></legend>
 								<ul id="listItems">
-								</ul>
-								<button id="btnPost" class="btn btn-small btn-primary" type="button">Preview Post</button>
+								</ul><a href="#descriptionPreview">
+								<button id="btnPost" class="btn btn-small btn-primary" type="button">Preview Post</button></a>
 								<button id='btnClear' class='btn btn-mini btn-warning' type='button'>Clear</button>
 						</div>
 						<div id="imgGallery" class="row-fluid">
@@ -218,6 +218,16 @@
 						<br>
 					</div>
 					<button id='btnClearPreview' class='btn btn-mini btn-warning' type='button'>Clear</button>
+					<div id='pictureSizing'>
+						<label>Adjust Picture(s) size (width)</label>
+							<div class="input-append">
+							  <input class="span1" id="imgSizer" size="16" type="text" max-length='3' value="80" placeholder='80'><span class="add-on">px</span>
+							  <div class="btn-group">
+ 
+							    <a id='plusSize' class="btn btn-mini"><i class="icon-plus"></i></a>
+							    <a id='minusSize' class="btn btn-mini" ><i class="icon-minus"></i></a>
+							</div>
+					</div>
 				</div>
 				<br>
 				<button id='sendToCraigslist' class='btn btn-large btn-primary' type='button'>Post</button>
