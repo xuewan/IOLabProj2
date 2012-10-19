@@ -11,9 +11,9 @@ var listCounter = 0;
 var fullListItem = {};
 var imgWidth = 120;
 
-//Golbal variable for the price to be posted
+//Golbal variable for the price to be posted on Craigslist
 // if only one item, price is the item price
-// if more than one item, price is the cheapest price among all items
+// if more than one item, price should be blank
 var postingPrice = -1;
 
 $(document).ready( function(){
