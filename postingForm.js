@@ -82,6 +82,19 @@ $(document).ready( function(){
 		console.log("File API is not fully supported in this browser");
 	}
 
+	$("#imgDropZone").filedrop({
+	   paramname:'pic',
+	   maxfiles: 5,
+	   maxfilesize: 2, // in mb
+	   url: 'upload.php',
+	   uploadFinished:function(i,file,response){
+	      //$.data(file).addClass('done');
+	      // response is the JSON object that post_file.php returns
+	      console.log(response);
+	      alert(response.status);
+	    }
+	});
+
 	$('#imgDropZone').bind("drop", function(event){
 		handleFileSelect(event);
 	});
