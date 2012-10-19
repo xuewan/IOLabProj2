@@ -31,3 +31,8 @@
 					#spellcheckresults dl dd { float: left; margin: 3px 10px; padding: 0; cursor: pointer; color: green; }
 					#spellcheckresults dl dd.ignore { color: red; font-style: italic; }
 
+#previewArea{
+	border-style: solid;
+	border-radius: 3px;
+	margin-bottom: 5px;
+}

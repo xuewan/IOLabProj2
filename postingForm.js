@@ -9,8 +9,10 @@ listItemId : html string
 //listCounter is used to id an item added to the sales list
 var listCounter = 0;
 var fullListItem = {};
-
+var imgWidth = 120;
 $(document).ready( function(){
+
+	$('#sendToCraigslist').attr('disabled', "disabled");
 
 	autocomplete();
 	$('#descriptionPreview').hide()
@@ -56,6 +58,10 @@ $(document).ready( function(){
 	$('#btnClearPreview').click(function() {
 		$('#descriptionItems').empty();
 		$('#deliverySection').empty();
+		$('#sendToCraigslist').attr('disabled', "disabled");
+		$("#btnClearPreview").hide();
+		$('#descriptionPreview').hide();
+		$("#pictureSizing").hide();
 	});
 	
 	//make items in the list sortable
@@ -101,6 +107,23 @@ $(document).ready( function(){
 
 	$('#imgDropZone li').draggable();
 
+	//MW: Image resizing
+	$("#imgSizer").keyup(function(){
+		resizeImages($(this).val());
+	})
+
+	$('#plusSize').click(function(){
+		newSize = parseInt($("#imgSizer").val())+10;
+		$("#imgSizer").val(newSize);
+		resizeImages(newSize);
+	})
+
+	$('#minusSize').click(function(){
+		newSize = parseInt($("#imgSizer").val())-10;
+		$("#imgSizer").val(newSize);
+		resizeImages(newSize);
+	})//end Image Resizing
+
 	return false;
 		
 });
@@ -143,36 +166,33 @@ function appendToItemList(){
 	//console.log(numImgs);
 
 
-	//Show full length item descriptions
-	//refNum=populateDescription();
-
 	var itemName = itemBrand == ""? itemType : itemBrand + " " +itemType;
-		// console.log(listItemStr)
+
 	var listItemStr = "<li id='"+ listCounter 
 						+"'><button type='button' class='btn btn-mini'>X</button><strong>" 
 						+itemName + "</strong> $" + itemPrice 
 						+ " (" + numImgs + " images)"
 						+ "<span class='hide-text'>" 
-						+ itemDesc + refNum + "</span></li>"
-	
-
-	
+						+ itemDesc + "</span></li>"
+		
 	var itemObject = {
 		"type": $('#inputFurnitureType').val(),
 	}
 	
 	//Save the #listItems in an array with the full-length descriptions
 	fullListItem[listCounter] = populateDescription();
-	console.log(fullListItem);
+	//console.log(fullListItem);
 	$('#listItems').append(listItemStr);
 
 	//WX: add the item id to each of its images
+	/*MW: I moved this functionality to 'handleFileSelect' to simplify
 	$('#imgList li').each(function(){
 		var image = $(this).find('img');
 		var imgDomEL = image[0];
-		$(imgDomEL).attr("itemid","item"+listCounter);
-		console.log(imgDomEL);
+		//$(imgDomEL).attr("itemid","item"+listCounter);
+		//console.log(imgDomEL);
 	});
+	*/
 
 	listCounter ++;
 
@@ -218,21 +238,22 @@ function validateInputs(){
 	return errMsg;
 }
 
-/****************************************
+/*MW: ***********************************
 Function: postToPreview()
-Description: Makes a preview of the posting description 
-that shows:
-Notes for Entire Post,
-Delivery availability,
-and Item Summaries
-For questions, ask Morgan Wallace
+Description: 
+	Makes a preview of the posting description that shows:
+		- Notes for Entire Post,
+		- Delivery availability,
+		- and Item Summaries
 ****************************************/
 function postToPreview(){
-	//$('#previewDescription').remove();
 	$("#previewDescription").html($('#postingNotes').val()); 
 	$("#deliverySection").html(deliverable())
 	$("#descriptionItems").empty(); //remove old list items
 	$('#descriptionPreview').show();
+	$("#pictureSizing").show();
+	$("#btnClearPreview").show();
+	$('#sendToCraigslist').attr('disabled', false);
 	
 	//for each item in "List of Item(s)" find the full
 	//description in 'fullListItem' object by using 'id' as the key
@@ -319,23 +340,19 @@ function loadFromStorage(){
 
 }
 
-/****************************************
+/*MW: ***************************************
 Function: populateDescription()
-Description: Create Item descriptions that will display in Craigslist
+Description: 
+	Create Item descriptions that will display in Craigslist
 ****************************************/
-//global object to save all the description line items
-var itemDescriptions = new Array()
-var refNum = 0;
+
 
 function populateDescription(){
-
-	//On the condition that negotiable is checked add to price section
-	
+	$("#imgSizer").show();
 	var negotiable = ""	;
 	if ($('#chkNegotiable').is(':checked')) {
 		negotiable = " - price is negotiable"
 	}
-
 
 	var condition = "";
 	if ($('#inputCondition').val() !== "") {
@@ -372,13 +389,15 @@ function populateDescription(){
 	dimentions = "("+ w + h + d + ")";	
 	};
 	
+	//Create all the image tags for the preview. 
+	//...Argument is width(px); height adjusts using aspect ratio
 
-	var imageSource = '';
 
-
+	var imageSource = appendImages(imgWidth);
 
 	//This variable (previewListing) populates into the posting Description
 	var previewListing = "<li>" 
+	+ imageSource
 	+ $('#inputBrand').val() + " " 
 	+ $('#inputModel').val() + " " 
 	+ $('#inputFurnitureType').val() 
@@ -390,6 +409,32 @@ function populateDescription(){
 	return previewListing;
 }
 
+/*MW: ###############
+Function: appendImages
+Description:
+	Returns image tag(s) 
+###################*/
+function appendImages(w){
+	var imageArray = [];
+	var aspectRatio = 1;
+	console.log(imgWidth);
+	//make image tag for each uploaded image
+	$("#imgList li").each(function(){
+		aspectRatio = $(this).find('img').width() / $(this).find('img').height();
+		imageArray.push("<img class='thumbPreview' "//add class
+			+"style='margin-bottom: 2px; width: " + w + "px; height: " + (w/aspectRatio) + "px;' "//add style
+			+"src='" + $(this).find('img').attr('src') //get location of image
+			+ "'> ");		
+	})
+	return imageArray.join(" ");
+}
+
+/*MW: ##################
+Function: deliverable
+Description: 
+	return a string that says if the items are deliverable
+	...and if they have a fee
+######################*/
 function deliverable(){
 	var delivDisplay =''
 	if ($('#chkDelivery').is(':checked')){
@@ -402,7 +447,11 @@ function deliverable(){
 	return delivDisplay;
 }
 
-
+/*MW: ###############
+Function: clearList
+Description: 
+	empty list items sidebar
+###################*/
 function clearList(){
 	$('#listItems').empty();
 	fullListItem = {};
@@ -411,7 +460,11 @@ function clearList(){
 	listCounter = 0;
 };
 
-//Furniture Type Autocomplete function
+/*MW: ###############
+Function: autocomplete 
+Description: 
+	Simplify data entry for Furniture Type field
+###################*/
 function autocomplete(){
 	//Pulled list from ebay  (http://pages.ebay.com/furniture/)
 	var availableTags = [
@@ -489,7 +542,7 @@ function handleFileSelect(event){
 
 				var image = "<li>" +
 					"<h5 class='muted'>" + theFile.name + " <i class='icon-remove'></i></h5>" +
-					"<img class='thumb' itemid='' title='" 
+					"<img class='thumb' itemid='item" + listCounter + "' title='" 
 						+theFile.name+ "'' src='"+event.target.result+"'></li>" ;
 				$('#imgList').append(image);
 
@@ -545,3 +598,18 @@ Description:
 function clearForNextItem(){
 	$('#formPostItems :input:not(:button, :checkbox)').val("");
 }
+
+function resizeImages(w){
+	var newWidth = w;
+		//console.log(newWidth);
+		if (newWidth>9 && newWidth<500) {
+			imgWidth = newWidth;
+			console.log(imgWidth);
+			$(".thumbPreview").each(function(i){
+				//console.log($(this).width());
+				$(this).height(newWidth / ($(this).width() / $(this).height()));
+				$(this).width(newWidth);		
+			});
+		};
+}
+
