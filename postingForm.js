@@ -10,6 +10,12 @@ listItemId : html string
 var listCounter = 0;
 var fullListItem = {};
 var imgWidth = 120;
+
+//Golbal variable for the price to be posted
+// if only one item, price is the item price
+// if more than one item, price is the cheapest price among all items
+var postingPrice = -1;
+
 $(document).ready( function(){
 
 	$('#sendToCraigslist').attr('disabled', "disabled");
@@ -62,6 +68,9 @@ $(document).ready( function(){
 		$("#btnClearPreview").hide();
 		$('#descriptionPreview').hide();
 		$("#pictureSizing").hide();
+		//WX: reset the posting price back to -1
+		postingPrice = -1;
+		console.log("reset postingPrice back to -1" + postingPrice);
 	});
 	
 	//make items in the list sortable
@@ -169,12 +178,12 @@ function appendToItemList(){
 	var itemName = itemBrand == ""? itemType : itemBrand + " " +itemType;
 
 	var listItemStr = "<li id='"+ listCounter 
-						+"'><button type='button' class='btn btn-mini'>X</button><strong>" 
+						+"' price='"+itemPrice +"'><button type='button' class='btn btn-mini'>X</button><strong>" 
 						+itemName + "</strong> $" + itemPrice 
 						+ " (" + numImgs + " images)"
 						+ "<span class='hide-text'>" 
 						+ itemDesc + "</span></li>"
-		
+		console.log(listItemStr);
 	var itemObject = {
 		"type": $('#inputFurnitureType').val(),
 	}
@@ -257,9 +266,19 @@ function postToPreview(){
 	
 	//for each item in "List of Item(s)" find the full
 	//description in 'fullListItem' object by using 'id' as the key
+	
+	var counter = 0;
 	$("#listItems li").each(function(){
 		$('#descriptionItems').append(fullListItem[($(this).attr('id'))]);
+		counter ++;
 	});
+
+	//WX: added the following line to get the posting price of the entire post
+	if(counter == 1){
+		postingPrice = $('#listItems li').attr('price');
+		//console.log("postingPrice is now " + postingPrice);
+		//console.log(counter);
+	}
 }
 
 
@@ -458,6 +477,9 @@ function clearList(){
 
 	$('#galleryImgs').empty();
 	listCounter = 0;
+
+	postingPrice = -1;
+	console.log("postingPrice is back to "+ postingPrice);
 };
 
 /*MW: ###############
