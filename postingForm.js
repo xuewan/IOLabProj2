@@ -403,9 +403,9 @@ function populateDescription(){
 	};
 	
 	//if input exists for 'Width' 'Height' or 'Depth' then populate
-	var dimentions = '';
+	var dimensions = '';
 	if ($('#inputWidth').val() + $('#inputWidth').val() + $('#inputWidth').val() !=='') {
-	dimentions = "("+ w + h + d + ")";	
+	dimensions = "("+ w + h + d + ") ";	
 	};
 	
 	//Create all the image tags for the preview. 
@@ -422,7 +422,7 @@ function populateDescription(){
 	+ $('#inputFurnitureType').val() 
 	+ " ($" + $('#inputPrice').val() + negotiable+ "). " 
 	+ condition
-	+ dimentions
+	+ dimensions
 	+ description + "</li";
 
 	return previewListing;
