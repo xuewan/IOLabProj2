@@ -43,7 +43,7 @@ Technologies used in the project: HTML, CSS, Javascript, Jquery, Jquery UI, PHP,
 
 URL of Repo on GitHub: https://github.com/xuewan/IOLabProj2
 
-Live URL of where it's hosted: ?
+Live URL of where it's hosted: http://people.ischool.berkeley.edu/~wendy.xue/IOLabProj2/postingForm.html
 
 Browser support: Chrome only because we use Chrome extensions
 
