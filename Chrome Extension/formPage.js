@@ -7,7 +7,8 @@ $("#sendToCraigslist").click(function(){
    if ($("#radioEmailOption1").attr("checked")) {
       msg.emailHide = false;
    }
-   msg.desc = $("#descriptionPreview").val();
+   msg.desc = $("#previewArea").html();
+   console.log(msg.desc);
 
    // pass msg to background js
    var port = chrome.extension.connect({name: "pageInfo"});

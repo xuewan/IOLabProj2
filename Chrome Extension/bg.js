@@ -7,7 +7,7 @@ chrome.extension.onConnect.addListener(function(port) {
       msg = pageMsg;
       console.log(msg);
    });
-   alert("triggered tab id: " + port.sender.tab.id);
+   console.log("triggered tab id: " + port.sender.tab.id);
    console.log(msg);
 
    // create tab

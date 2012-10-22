@@ -97,21 +97,27 @@ $(document).ready( function(){
 		console.log("File API is not fully supported in this browser");
 	}
 
+	//respond to the event of dropping an image file into the dropbox area
+	//use HTML5 File API and JQuery FileDrop API
+	//Render dropped image into thumbnail and display underneather the dropbox area
 	$("#imgDropZone").filedrop({
 	   paramname:'pic',
 	   maxfiles: 5,
 	   maxfilesize: 2, // in mb
 	   url: 'upload.php',
 	   uploadFinished:function(i,file,response){
-	      //$.data(file).addClass('done');
-	      // response is the JSON object that post_file.php returns
+	      // response is the JSON object that upload.php returns
 	      console.log(response);
-	      alert(response.status);
-	    }
-	});
+			var image = "<li>" +
+			   "<h5 class='muted'>" + file.name + " <i class='icon-remove'></i></h5>" +
+				"<img class='thumb' itemid='item" + listCounter + "' title='" +
+				file.name+ "'' src='"+response.status+"'></li>" ;
+			console.log(image);
+			$('#imgList').append(image);
 
-	$('#imgDropZone').bind("drop", function(event){
-		handleFileSelect(event);
+			//bind the click event to delete image
+			bindDeleteImage();
+	    }
 	});
 
 	$('#imgDropZone li').draggable();
@@ -537,48 +543,6 @@ function autocomplete(){
 		source: availableTags
 	});
 };
-
-/****************************************
-Function: handleFileSelect()
-Description:
-	respond to the event of dropping an image file into the dropbox area
-	use HTML5 File API and JQuery FileDrop API
-	Render dropped image into thumbnail and display underneather the dropbox area
-****************************************/
-function handleFileSelect(event){
-	event.stopPropagation();
-	event.preventDefault();
-
-	var file = event.dataTransfer.files; //get the FileList object
-
-	var output = [];
-	for (var i=0,f; f=file[i]; i++){
-		//process iamge files
-		if(!f.type.match('image.*')){
-			continue; //skip any file that is not an image
-		}
-
-		var reader = new  FileReader();
-		reader.onload = (function(theFile){
-			return function(event){
-
-				var image = "<li>" +
-					"<h5 class='muted'>" + theFile.name + " <i class='icon-remove'></i></h5>" +
-					"<img class='thumb' itemid='item" + listCounter + "' title='" 
-						+theFile.name+ "'' src='"+event.target.result+"'></li>" ;
-				$('#imgList').append(image);
-
-				//bind the click event to delete image
-				bindDeleteImage();
-			};
-		})(f);
-
-		reader.readAsDataURL(f);
-
-		
-	}
-	return false;
-}
 
 /****************************************
 Function: deleteImage()
