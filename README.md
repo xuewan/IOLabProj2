@@ -37,3 +37,16 @@ The meta data is constructed and controlled for the user.
 
 People are stupid
 We utilized a Spellcheck plug-in to check the spelling mistakes in attempt to reduce the amount of metacarpi created by the people
+
+
+Technologies used in the project: HTML, CSS, Javascript, Jquery, Jquery UI, PHP, JSON, AJAX, Chrome Extension.
+
+URL of Repo on GitHub: https://github.com/xuewan/IOLabProj2
+
+Live URL of where it's hosted: ?
+
+Browser support: Chrome only because we use Chrome extensions
+
+Any bugs/quirks we should be aware of: 
+ - Our functionality is limited to Furniture posts in Berkeley
+ - Spell check and Chrome Extension functionality only runs when run from our server where a spell check PHP program is running
